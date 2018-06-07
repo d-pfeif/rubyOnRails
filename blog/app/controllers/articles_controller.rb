@@ -8,6 +8,11 @@ class ArticlesController < ApplicationController
   end
 
   def new
+    @article = Article.new
+  end
+
+  def edit
+    @article = Article.find(params[:id])
   end
 
   def create
@@ -20,13 +25,24 @@ class ArticlesController < ApplicationController
     # Alternatively, the safest way to secure your program is to create a private variable that contains the parameters and pass that into the new Article
     @article = Article.new(article_params)
 
-    # saves Article to database
-    @article.save
-
-    #redirects to /articles
-    redirect_to articles_path
+    # saves Article to database if validated
+    if @article.save
+      #redirects to /articles
+      redirect_to articles_path
+    else
+      render 'new'
+    end
   end
 
+  def update
+    @article = Article.find(params[:id])
+
+    if @article.update(article_params)
+      redirect_to @article
+    else
+      render 'edit'
+    end
+  end
 
   # private section should be at the end of the class
   private
