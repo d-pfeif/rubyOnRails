@@ -1,4 +1,12 @@
 class ArticlesController < ApplicationController
+  def index
+    @articles = Article.all
+  end
+
+  def show
+    @article = Article.find(params[:id])
+  end
+
   def new
   end
 
@@ -12,16 +20,11 @@ class ArticlesController < ApplicationController
     # Alternatively, the safest way to secure your program is to create a private variable that contains the parameters and pass that into the new Article
     @article = Article.new(article_params)
 
-
     # saves Article to database
     @article.save
 
-    #redirects to /article
-    redirect_to @article
-  end
-
-  def show
-    @article = Article.find(params[:id])
+    #redirects to /articles
+    redirect_to articles_path
   end
 
 
